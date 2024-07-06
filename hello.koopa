@@ -1,0 +1,200 @@
+decl @getint():i32
+decl @getch():i32
+decl @getarray(*i32):i32
+decl @putint(i32)
+decl @putch(i32)
+decl @putarray(i32,*i32)
+decl @starttime()
+decl @stoptime()
+
+global @__filed0__buf = alloc [[i32, 100], 2], {{-10525, -9882, 48155, -22162, -38879, 52218, -44913, 14799, -52541, 19859, 23040, 38767, -39850, -2221, -63865, 51868, 64903, -3812, -58581, -43797, 12117, -32032, -58451, -59283, -24783, -10753, -18185, 28370, 7266, 760, 30956, -35818, -52888, -37486, 21562, 14967, 53534, 46231, -93013, -62145, 24886, 18009, 63111, -14203, 40779, 51479, 36163, 14992, 57399, -58381, 5335, -38236, 4245, -33049, 33608, -63687, 37320, -32676, 6602, 40444, 1715, 11292, 2406, 16023, 1996, -60066, -52763, -16559, 53676, 22077, 57606, 46802, -2033, -64412, -58092, 61266, 59389, -38805, 1155, 59786, 35700, 52562, 9161, -2723, -57451, 46501, -2730, 38395, -2556, -38481, 52802, -47314, -21799, -18640, 60818, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+fun @merge_sort(@l: i32 , @r: i32 ){ 
+%entry:
+%0= add 0,@l
+%1= add %0, 1
+%2= add 0,@r
+%3= ge %1, %2
+br %3, %then0, %merge0
+
+%then0:
+ret
+%merge0:
+@mid = alloc i32 
+%4= add 0,@l
+%5= add 0,@r
+%6= add %4, %5
+%7= div %6, 2
+store %7, @mid
+
+%8= add 0,@l
+%9= load @mid
+call @merge_sort(%8,%9)
+%10= load @mid
+%11= add 0,@r
+call @merge_sort(%10,%11)
+@i = alloc i32 
+%12= add 0,@l
+store %12, @i
+
+@j = alloc i32 
+%13= load @mid
+store %13, @j
+
+@k = alloc i32 
+%14= add 0,@l
+store %14, @k
+
+jump %while_entry0
+%while_entry0:
+%15= load @i
+%16= load @mid
+%17= lt %15, %16
+%18= eq 0, %17
+%19= eq 0, %18
+%and0 = alloc i32
+store %19, %and0
+br %19, %and1part0, %and2part0
+%and1part0:
+%20= load @j
+%21= add 0,@r
+%22= lt %20, %21
+%23= eq 0, %22
+%24= eq 0,%23
+%25= and %19,%24
+store %25, %and0
+jump %and2part0
+%and2part0:
+%26= load %and0
+br %26, %while_body0, %while_end0
+
+%while_body0:
+%27= load @i
+%ptr0 = getelemptr @__filed0__buf, 0
+%ptr1 = getelemptr %ptr0, %27
+%28 = load %ptr1
+%29= load @j
+%ptr2 = getelemptr @__filed0__buf, 0
+%ptr3 = getelemptr %ptr2, %29
+%30 = load %ptr3
+%31= lt %28, %30
+br %31, %then1, %else1
+
+%then1:
+%32= load @k
+%ptr4 = getelemptr @__filed0__buf, 1
+%ptr5 = getelemptr %ptr4, %32
+%33= load @i
+%ptr6 = getelemptr @__filed0__buf, 0
+%ptr7 = getelemptr %ptr6, %33
+%34 = load %ptr7
+store %34, %ptr5
+%35= load @i
+%36= add %35, 1
+store %36, @i
+jump %merge1
+%else1:
+%37= load @k
+%ptr8 = getelemptr @__filed0__buf, 1
+%ptr9 = getelemptr %ptr8, %37
+%38= load @j
+%ptr10 = getelemptr @__filed0__buf, 0
+%ptr11 = getelemptr %ptr10, %38
+%39 = load %ptr11
+store %39, %ptr9
+%40= load @j
+%41= add %40, 1
+store %41, @j
+jump %merge1
+%merge1:
+%42= load @k
+%43= add %42, 1
+store %43, @k
+jump %while_entry0
+%while_end0:
+jump %while_entry1
+%while_entry1:
+%44= load @i
+%45= load @mid
+%46= lt %44, %45
+br %46, %while_body1, %while_end1
+
+%while_body1:
+%47= load @k
+%ptr12 = getelemptr @__filed0__buf, 1
+%ptr13 = getelemptr %ptr12, %47
+%48= load @i
+%ptr14 = getelemptr @__filed0__buf, 0
+%ptr15 = getelemptr %ptr14, %48
+%49 = load %ptr15
+store %49, %ptr13
+%50= load @i
+%51= add %50, 1
+store %51, @i
+%52= load @k
+%53= add %52, 1
+store %53, @k
+jump %while_entry1
+%while_end1:
+jump %while_entry2
+%while_entry2:
+%54= load @j
+%55= add 0,@r
+%56= lt %54, %55
+br %56, %while_body2, %while_end2
+
+%while_body2:
+%57= load @k
+%ptr16 = getelemptr @__filed0__buf, 1
+%ptr17 = getelemptr %ptr16, %57
+%58= load @j
+%ptr18 = getelemptr @__filed0__buf, 0
+%ptr19 = getelemptr %ptr18, %58
+%59 = load %ptr19
+store %59, %ptr17
+%60= load @j
+%61= add %60, 1
+store %61, @j
+%62= load @k
+%63= add %62, 1
+store %63, @k
+jump %while_entry2
+%while_end2:
+jump %while_entry3
+%while_entry3:
+%64= add 0,@l
+%65= add 0,@r
+%66= lt %64, %65
+br %66, %while_body3, %while_end3
+
+%while_body3:
+%67= add 0,@l
+%ptr20 = getelemptr @__filed0__buf, 0
+%ptr21 = getelemptr %ptr20, %67
+%68= add 0,@l
+%ptr22 = getelemptr @__filed0__buf, 1
+%ptr23 = getelemptr %ptr22, %68
+%69 = load %ptr23
+store %69, %ptr21
+%l= alloc i32
+store @l, %l
+%70= load %l
+%71= add %70, 1
+store %71, %l
+jump %while_entry3
+%while_end3:
+ret
+ }
+fun @main() : i32 { 
+%entry:
+@n = alloc i32 
+store 97, @n
+
+%72= add 0, 0
+%73= load @n
+call @merge_sort(%72,%73)
+%74= load @n
+%ptr24 = getelemptr @__filed0__buf, 0
+%75 = getelemptr %ptr24, 0
+call @putarray(%74,%75)
+ret 0
+ }
